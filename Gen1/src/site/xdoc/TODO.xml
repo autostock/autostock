@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <properties>
+        <author>Uwe Hubert</author>
+        <title>TODO</title>
+    </properties>
+    <meta name="keyword" content="jakarta, java" />
+    <body>
+        <!-- Remove the spaces between the letters of F I X M E to show the corresponding entry in the Eclipse tasks view.-->        
+        <!-- F I X M E: Check Maven Site FIXMEs -->
+        <section name="FIXMEs">
+            <ul>
+                <li></li>
+            </ul>
+        </section>
+        <!-- Remove the spaces between the letters of T O D O to show the corresponding entry in the Eclipse tasks view.-->
+        <!-- T O D O: Check Maven Site TODOs -->
+        <section name="TODOs">
+            <ul>
+                <li></li>
+            </ul>
+        </section>
+        <section name="IDEAs">
+            <ul>
+                <li></li>
+            </ul>
+        </section>
+    </body>
+</document> 

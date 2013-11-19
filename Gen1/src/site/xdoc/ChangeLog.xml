@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <properties>
+        <title>Changelog</title>
+    </properties>
+    <meta name="keyword" content="jakarta, java" />
+    <body>
+        <section name="0.0.1">
+            <ul>
+                <li>
+                    Initial release.
+                </li>
+            </ul>
+        </section>
+        <section name="0.0.2">
+            <ul>
+                <li>
+                </li>
+            </ul>
+        </section>
+        <!-- <section name="0.0."><ul><li></li><li></li></ul></section> -->
+        <!-- <section name="0.0."><ul><li></li><li></li></ul></section> -->
+        <!-- <section name="0.0."><ul><li></li><li></li></ul></section> -->
+    </body>
+</document> 

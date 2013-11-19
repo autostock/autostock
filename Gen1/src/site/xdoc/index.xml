@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <properties>
+        <title>${project.name}</title>
+    </properties>
+    <meta name="keyword" content="jakarta, java" />
+    <body>
+        <section name="Einführung">
+            <p>
+                &lt;groupId&gt;eu.icd.p999.1-gen1&lt;/groupId&gt;
+                <br />
+                &lt;artifactId&gt;Gen1&lt;/artifactId&gt;
+                <br />
+                &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+                <br />
+            </p>
+            <p>
+                git test
+            </p>
+        </section>
+
+        <section name="Referenzen">
+            <ul>
+                <li>
+                    <a
+                        href="http://icdci/mediawiki/index.php/p999.1-gen1">Wikiseite</a>
+                </li>
+                <li>
+                    <a href="http://winni/P:/projekte/p999-autostock/p999.1-gen1/v0">Projektordner
+                    </a>
+                </li>
+            </ul>
+        </section>
+    </body>
+</document> 

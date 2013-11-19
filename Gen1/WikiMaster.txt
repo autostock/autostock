@@ -1,0 +1,43 @@
+[[Category: p999-autostock]]
+==Name==
+Gen1 - git test
+
+==Synopsis==
+ gen1[.exe|-c.exe|-win64.exe|-c-win64.exe] <standard-options> -T <text> [-I <boolean>] [-N <integer>]
+
+==Description==
+git test<br/>
+<br/>
+
+===Options===
+ -T, --text <text>       der auszudruckende Text
+ -N, --anzahl <boolean>  wie oft, 
+ -I <integer>            soll der Text eingerückt werden?
+  
+ standard-options:
+ -?, --help              display help
+ -D                      allow external debugging
+     --interactive       set command line options interactively
+ -L, --log-config <file> set configuration file for logging
+                         default: gen1[-c|-win64|-c-win64]-log4j.properties
+ -S                      run synchronized
+ -V                      display verbose information
+ -VV                     display extra verbose information
+'''Bemerkung1:'''<br>
+<file> darf in Quotes (") eingeschlossen sein.
+
+==Examples==
+ gen1.exe -h
+Gibt die Hilfe aus.
+
+==Authors==
+* wrossner
+
+==Files==
+* [http://winni/P:/projekte/p999-autostock/p999.1-gen1/v0 P:/projekte/p999-autostock/p999.1-gen1/v0]
+
+Das Programm ist in Java geschrieben, es benötigt eine JVM, die aber auf jedem System vorhanden sein sollte.
+
+==See also==
+* http://icdsvn:44880/svn/p999-autostock/p999.1-gen1
+* http://cis:8080/job/p999.1-gen1
