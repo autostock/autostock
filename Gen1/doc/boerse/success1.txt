@@ -4,7 +4,7 @@ Natürlich macht diese Strategie, sie wird im Folgenden run31164.mac genannt, di
 
 Soweit die gute Nachricht, jetzt die ernüchternde Nachricht: Diese Aussage kann ich nicht für reale Börsenkursverläufe machen sondern nur für, von mir so benannte, ZK0 Kursverläufe.
 
-Um zu erklären was ZK0 Kursverläufe sind muss ich zunächst meine Grundannahme und damit die Rahmenbedingung erläutern. Meine Arbeitsgrundannahme lautet – mit irgendwas Einfachem muss man ja beginnen – Börsenkursverläufe sind rein vom Zufall bestimmte Kursverläufe und werden von sonst nichts (in der Welt) bestimmt. Erst mit dieser Arbeitshypothese habe ich ein Chance das Problem rein algorithmisch anzugehen. Damit meine ich, dass ich auskomme mit einem (chartistischen) Modell bei dem ich mir zuvor nicht Wirtschaftswissenschaften oder Börsenpsychologie aneignen muss. Natürlich habe ich dadurch „nur“ eine Lösung für den rein mathematischen Raum der Kursverläufe aber mit immerhin erstaunlichen Resultaten auch für reale Börsenkursverläufe. Davon kann sich jeder durch die, dieser e-mail, beigefügten Tools überzeugen. 
+Um zu erklären was ZK0 Kursverläufe sind muss ich zunächst meine Grundannahme und damit die Rahmenbedingung erläutern. Meine Arbeitsgrundannahme lautet - mit irgendwas Einfachem muss man ja beginnen - Börsenkursverläufe sind rein vom Zufall bestimmte Kursverläufe und werden von sonst nichts (in der Welt) bestimmt. Erst mit dieser Arbeitshypothese habe ich ein Chance das Problem rein algorithmisch anzugehen. Damit meine ich, dass ich auskomme mit einem (chartistischen) Modell bei dem ich mir zuvor nicht Wirtschaftswissenschaften oder Börsenpsychologie aneignen muss. Natürlich habe ich dadurch „nur“ eine Lösung für den rein mathematischen Raum der Kursverläufe aber mit immerhin erstaunlichen Resultaten auch für reale Börsenkursverläufe. Davon kann sich jeder durch die, dieser e-mail, beigefügten Tools überzeugen. 
 
 
 1. ZK0 Kursverläufe
@@ -20,7 +20,7 @@ Jeder Kursverlauf beginnt zu Anfang des Jahres mit 1.000DM. D.h. eine (zugrundel
 d) Bewegung:	b=0.07
 Von einem Tag zum anderen darf sich der Wert einer Aktie um maximal 7% des Anfangskurswertes (a) ändern. D.h. für ZK0 unterscheidet sich der Kurs von einem Tag zum anderen um maximal +-70DM.
 e) Verteilung der Bewegung: Normalverteilung
-Bei jeder Änderung des Wertes der Aktie (von Tag zu Tag) ist jede Wertänderung zwischen –70DM und +70DM gleich wahrscheinlich. (D.h., u.a. dass auch Wertänderungen um +-0DM nicht bevorzugt werden.)
+Bei jeder Änderung des Wertes der Aktie (von Tag zu Tag) ist jede Wertänderung zwischen -70DM und +70DM gleich wahrscheinlich. (D.h., u.a. dass auch Wertänderungen um +-0DM nicht bevorzugt werden.)
 f) Limit:		l=0.9
 Der Kursverlauf liegt immer im Intervall a-90% und a+90%. Da hier a=1.000DM ist (siehe Regel c ) liegt der Kursverlauf immer im Intervall 100DM  bis 1.900DM.
 
@@ -35,9 +35,9 @@ Im Anhang befindet sich das Programm gen1.exe (ein C-Programm für Windows) welc
 Damit die Kursverläufe nicht einfach durchrauschen kann man
 	gen1 | more
 eingeben. Man kann auch die Parameter von ZK0 ändern in dem man aufruft
-	gen1 –l 0.6
+	gen1 -l 0.6
 um den Limitparameter zu ändern oder
-	gen1 –b 0.08
+	gen1 -b 0.08
 um den Bewegungsparameter zu ändern.
 
 Zusätzlich gibt es ein (einfaches) JAVA Programm Gen1.class das durch
@@ -68,11 +68,11 @@ Die hier mitgelieferten Strategiedateien müssen von einem Interpreter interpret
 3. Interpreter
 
 Der Interpreter für Strategien ist das Programm test3.exe. Er wird mit einer Strategie zusammen gestartet durch
-	test3 –m run31164.mac
+	test3 -m run31164.mac
 
 Das Programm test3 fordert den Benutzer zur Eingabe der ersten Zeile auf.  Die Zeile sollte mit dem Datum des ersten Börsentages beginnen. (Hier ist jedoch jeder Text erlaubt der mit einem (oder mehr) Leerzeichen oder Tabulatorzeichen abgeschlossen wird. Es wird also nicht überprüft ob wirklich eine Datum eingegeben wurde.) Dem Datum muss der Wert der Aktie für den ersten Tag folgen (Anfangskurswert: a) abgeschlossen durch die RETURN Taste.
 
-Das Programm test3 startet jetzt die angegebene Strategie mit einem Startkapital das genau dem 100fachen des Anfangskurswertes entspricht. Zugleich „kauft“ das Programm (damit es spannend wird) gleich für die Hälfte dieses Startkapitals Aktien (also immer 50 Stück). Durch das Programm test3 ist auch festgelegt, dass für jede Transaktion – auch für diese erste - 1,5% an die Bank bezahlt werden müssen (damit es realistisch wird).
+Das Programm test3 startet jetzt die angegebene Strategie mit einem Startkapital das genau dem 100fachen des Anfangskurswertes entspricht. Zugleich „kauft“ das Programm (damit es spannend wird) gleich für die Hälfte dieses Startkapitals Aktien (also immer 50 Stück). Durch das Programm test3 ist auch festgelegt, dass für jede Transaktion - auch für diese erste - 1,5% an die Bank bezahlt werden müssen (damit es realistisch wird).
 
 Auf jede Eingabezeile (bestehend aus jeweils Datum und Kurswert, an diesem Datum) reagiert das Programm test3 mit einer Ausgabezeile, der Antwort bzw. Handlungsanweisung der geladenen Strategie:
 Spalte 1
@@ -99,16 +99,16 @@ So könnten die ersten vier Zeilen aussehen die ein Benutzter eingibt:
 05.08.1999	236,7000
 
 Ich benutze test3 jedoch anders. Ich schreibe zuerst alle Zeilen (mittels notepad) in eine Datei (hier im Beispiel die Datei allianz.txt) und gebe sie test3 als (geballte) Eingabe zu fressen:
-	test3 –m run31164.mac <allianz.txt
+	test3 -m run31164.mac <allianz.txt
 und schaue mir die Ausgabezeilen an. Jetzt stören mich die sinnlosen Eingabeaufforderungen von test3 und ich unterdrücke sie durch:
-	test3 –m run31164.mac –v 3 <allianz.txt
+	test3 -m run31164.mac -v 3 <allianz.txt
 bzw. probiere eine andere Strategie:
-	test3 –m run28003.mac –v 3 <allianz.txt
+	test3 -m run28003.mac -v 3 <allianz.txt
 
 Wenn ich das Startkapital z.B. selbst auf 10.000DM festlegen möchte gebe ich
-	test3 –m run31164.mac –k 10000 –v 3 <allianz.txt
+	test3 -m run31164.mac -k 10000 -v 3 <allianz.txt
 ein. Wenn ich Bankgebühren von z.B. 2,0% pro Transaktion wählen möchte (statt der vorgegebenen 1,5%) gebe ich
-	test3 –m run31164.mac –c 2.0 –v 3 <allianz.txt
+	test3 -m run31164.mac -c 2.0 -v 3 <allianz.txt
 ein.
 
 Die letzte Ausgabezeile von test3 fast das Spekulationsjahr (bzw. den Kursverlauf) zusammen:
@@ -126,10 +126,10 @@ Spalte 6:		Avg(S0)
 Durchschnittlicher Gewinn der Spekulationen mittels der Kontrollstrategie S0 bei den bisher bespekulierten Kursverläufe. Die Kontrollstrategie S0 ist simpel. Sie kauft ach am ersten Börsentag für die Hälfte des Startkapitals Aktien, handelt jedoch nie sondern hält sie bis zum letzten Börsentag. (S0 zahlt übrigens keine 1,5% Gebühren an die Bank.)
 
 Um zu sehen wie erfolgreich die Strategie run31164.mac auf  ZK0 Kursverläufe reagiert kann man
-	gen1 | test3 –m run31164.mac –v 3
+	gen1 | test3 -m run31164.mac -v 3
 eingeben. Wen jetzt nicht mehr alle 1000 Kursverläufe im Detail interessieren kann die unterjährigen Ausgabezeilen unterdrücken indem er
-	gen1 | test3 –m run31164.mac –v 2
-eingibt. Man wird jetzt sehen, dass sich in Spalte Avg(Strat) ein Wert von mehr als +20% einschwingen wird, meist sogar ein Wert von um die +30%. Während sich gleichzeitig der Erfolg von Kontrollstrategie S0 – wie erwartet - auf +-0% einschwingt.
+	gen1 | test3 -m run31164.mac -v 2
+eingibt. Man wird jetzt sehen, dass sich in Spalte Avg(Strat) ein Wert von mehr als +20% einschwingen wird, meist sogar ein Wert von um die +30%. Während sich gleichzeitig der Erfolg von Kontrollstrategie S0 - wie erwartet - auf +-0% einschwingt.
 
 Mit anderen Worten die Strategie run31164.mac schafft auf ZK0 Kursverläufen einen durchschnittlichen Gewinn von mehr als +20%. Dabei macht sie sogar in ca. 70% aller ZK0 Kursverläufen einen Gewinn (Spalte: AnzGew%).
 
@@ -138,7 +138,7 @@ Mit anderen Worten die Strategie run31164.mac schafft auf ZK0 Kursverläufen ein
 3. Sonstiges
 
 Man sich die Kursverläufe und die Reaktionen der gewählten Strategie auch als Graphik anschauen indem man
-	gen1 | test3 –m run31164.mac –v 11
+	gen1 | test3 -m run31164.mac -v 11
 aufruft. VORSICHT, dadurch werden alle 1000 Kursverläufe die gen1 erzeugt und auf die test3 reagiert als einzelne Dateien kurs00001.txt bis kurs1000.txt angelegt. Diese Dateien kann man dann einzeln mittels EXCEL und dem mitgelieferten Spreadsheet
 	show.xls
 anschauen (dargestellte Spalten I, J und K sind abgeleitet aus B, C und F und auf 1.0 normiert).
