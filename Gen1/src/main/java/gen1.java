@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class Gen1 {
+public class gen1 {
 	static final double AKTIE0 = 1000.0;
 
 	static final double LIMIT = 0.9;
