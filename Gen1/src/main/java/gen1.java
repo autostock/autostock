@@ -1,4 +1,4 @@
-import java.util.Random;
+import static lib.Lib.*;
 
 public class gen1 {
 	static final double AKTIE0 = 1000.0;
@@ -11,8 +11,6 @@ public class gen1 {
 	static double aktie = AKTIE0;
 	static int anz = 1000;
 	static int days = 250;
-	static Random random = new Random();
-
 	static int generate() {
 		int i, j, max;
 		double k0, k, ko, ku, d;
@@ -49,15 +47,6 @@ public class gen1 {
 		return (0);
 	};
 
-	private static int rand() {
-		return Math.abs(random.nextInt());
-	}
-
-	private static void printf(String format, Object... args) {
-		System.out.printf(format, args);
-
-	}
-
 	public static void main(String[] argv) {
 		int i, s = -1;
 
@@ -91,18 +80,6 @@ public class gen1 {
 			random.setSeed(s);
 
 		generate();
-	}
-
-	private static int atoi(String string) {
-		return Integer.parseInt(string);
-	}
-
-	private static double atof(String string) {
-		return Double.parseDouble(string);
-	}
-
-	private static int strcmp(String a, String b) {
-		return a.compareTo(b);
 	}
 
 }
