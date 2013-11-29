@@ -3,6 +3,7 @@ import java.io.PrintStream;
 import java.util.Formatter;
 import java.util.Scanner;
 
+import lib.Lib;
 import lib.Reference;
 import static lib.Lib.*;
 
@@ -73,13 +74,21 @@ public class Test3 {
 		int[] gene = new int[GENLEN];
 	}
 
-	static class genotype {
+	static class Genotype {
 		int[] gene = new int[GENLEN];
 		double fitness, rfitness, cfitness, gewinn;
 		int sell, buy, hold;
 	};
 
-	static genotype[] population = new genotype[POPSIZE + 2];
+	static Genotype[] population = new Genotype[POPSIZE + 2];
+	static {
+		for (int i = 0; i < trans.length; i++) {
+			trans[i]=new Machine();
+		}
+		for (int i = 0; i < population.length; i++) {
+			population[i]=new Genotype();
+		}
+	}
 
 	static double[] symval = new double[] { 0.0, 40.0, 90.0, -40.0, -90.0 };
 	static String[] names = new String[] { " #s1", " +b2", " -s1", " -s2" };
@@ -432,13 +441,19 @@ public class Test3 {
 		if (PRINTMODE(2))
 			printf("%5s %10s %7s %10s %10s %10s\n", "Jahr", "Endkurs",
 					"AnzGew%", "Gew%", "Avg(Strat)", "Avg(S0)");
+		Scanner in;
+		if (ReadData==null || ReadData.equals("nofile")) {
+			in=Lib.stdin;
+		} else {
+			in=fopen_r(ReadData, "r");
+		}
 		while (true) {
 			i = 0;
 			if (PRINTMODE(4))
 				fprintf(System.err, "Bitte erstes Datum und Kurs: ");
 			str = strcpy(str, "                   ");
 			str2 = strcpy(str2, str);
-			r = ref(ref = scanf("%s %s", str, str2), str = ref.values[0],
+			r = ref(ref = fscanf(in, "%s %s", str, str2), str = ref.values[0],
 					str2 = ref.values[1]);
 			// printf("r=%d str=%s\n", r, str);
 			if (r <= 0)
@@ -486,13 +501,13 @@ public class Test3 {
 								* (k * summe + konto) / startkapital, bank);
 			}
 
-			line = gets();
+			line = gets(in);
 			if (PRINTMODE(4))
 				fprintf(System.err, "Bitte Datum und Kurs: ");
 			strcpy(line, "                                   ");
-			line = gets();
+			line = gets(in);
 			lasthandel = i;
-			while (ref(ref = scanf("%s %s", str, str2), str = ref.values[0],
+			while (ref(ref = fscanf(in, "%s %s", str, str2), str = ref.values[0],
 					str2 = ref.values[1]) == 2) {
 				ref(ref = sscanf(fnorm(str2), "%f", f),
 						f = Float.parseFloat(ref.values[0]));
@@ -549,7 +564,7 @@ public class Test3 {
 				if (PRINTMODE(4))
 					fprintf(System.err, "Bitte Datum und Kurs: ");
 				strcpy(line, "                                   ");
-				line = gets();
+				line = gets(in);
 				if (line == null)
 					strcpy(line, "");
 			}
@@ -641,7 +656,7 @@ public class Test3 {
 
 					for (pc = 0; pc < genlen; pc++) {
 						if (pc % 16 == 0)
-							ref(ref = fscanf(f, "%d", state),
+							ref(ref = fscanf(f, "%d:", state),
 									state = Integer.parseInt(ref.values[0]));
 						// printf("%2d:", state);
 						/*
@@ -673,7 +688,7 @@ public class Test3 {
 		return (anzmach);
 	}
 
-	static void main(String argv[]) {
+	public static void main(String argv[]) {
 		int i, s = 1;
 		int years;
 
@@ -685,8 +700,8 @@ public class Test3 {
 		ReadData = null;
 
 		int argc = argv.length;
-		if (argc > 1) {
-			for (i = 1; i < argc; i++) {
+		if (argc > 0) {
+			for (i = 0; i < argc; i++) {
 				if (strcmp(argv[i], "-r") == 0) {
 					ReadData = argv[++i];
 				} else if (strcmp(argv[i], "-m") == 0) {
@@ -714,7 +729,7 @@ public class Test3 {
 			}
 		}
 		readmachs(machname);
-		readdata("nofile");
+		readdata(ReadData);
 	}
 
 }

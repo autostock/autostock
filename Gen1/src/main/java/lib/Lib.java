@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Formatter;
+import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -78,8 +79,29 @@ public class Lib {
 	}
 
 	public static Reference fscanf(Scanner in, String format, Object... args) {
-		// TODO Auto-generated method stub
-		return null;
+		Reference ref = new Reference();
+		int n=0;
+		for (int i = 0; i < format.length(); i++) {
+			if (format.charAt(i)=='%') n++;
+		}
+		String[] token = format.split("\\s+");
+		ref.values = new String[n];
+		for (int i = 0; i < n; i++) {
+			ref.values[i]=(args[i]==null?"":args[i].toString());
+		}
+		try {
+			for (int i = 0; i < token.length; i++) {
+				if (token[i].startsWith("%")) {
+					String tmp=in.next();
+					ref.values[ref.count]=tmp.substring(0, tmp.length() - (token[i].length()-2));
+					//System.out.print(ref.values[ref.count]+" ");
+					ref.count++;
+				}
+			}
+			//System.out.println();
+		} catch (NoSuchElementException e) {
+		}
+		return ref;
 	}
 
 	public static Reference scanf(String format, Object... args) {
@@ -90,8 +112,12 @@ public class Lib {
 		return fscanf(new Scanner(input), format, args);
 	}
 
-	public static String gets() {
-		return stdin.nextLine();
+	public static String gets(Scanner in) {
+		try {
+			return in.nextLine();
+		} catch (NoSuchElementException e) {
+			return null;
+		}
 	}
 
 }
