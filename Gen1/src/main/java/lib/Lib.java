@@ -43,7 +43,7 @@ public class Lib {
 	}
 
 	public static double atof(String string) {
-		return Double.parseDouble(string);
+		return Double.parseDouble(string.replace(',', '.'));
 	}
 
 	public static int strcmp(String a, String b) {
