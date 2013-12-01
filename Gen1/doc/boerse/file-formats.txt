@@ -62,3 +62,9 @@ Ist zeilenorientiert und enthält den Handelsvorschlag.
 Beispiel
 	allianz: +20
 Bedeutet, dass das Programm 20 Allianz Aktien kaufen will.
+
+4) Framework
+4.1) Aufruf
+	onetest -testee <program-under-test> -data <data-directory> [-window <size>] -tests <days> [-name <aktien-input-file>]
+Beispiel:
+	onetest -testee "C:\Users\wrossner\boerse\trader_0.exe" -data C:\Users\wrossner\boerse\tmp\ -window 1 -tests 20 -name "C:\Users\wrossner\git\autostock\Gen1\doc\boerse\dax\allianz.txt"

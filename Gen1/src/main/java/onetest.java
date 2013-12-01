@@ -49,8 +49,8 @@ public class onetest {
 					tests = atoi(argv[++i]);
 				} else if (strcmp(argv[i], "-start") == 0) {
 					start = atoi(argv[++i]);
-				} else if (strcmp(argv[i], "-dir") == 0) {
-					dir = argv[++i];
+				} else if (strcmp(argv[i], "-dir") == 0 || strcmp(argv[i], "-data") == 0) {
+					dir = argv[++i]+"/";
 				} else if (strcmp(argv[i], "-testee") == 0) {
 					testee = argv[++i];
 				} else {
