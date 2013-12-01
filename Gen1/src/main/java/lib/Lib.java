@@ -3,17 +3,37 @@ package lib;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Formatter;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Vector;
 
 
 public class Lib {
 	static public Scanner stdin=new Scanner(System.in);
 
+    /**
+     * Returns the next pseudorandom, uniformly distributed {@code int}
+     * value from this random number generator's sequence. The general
+     * contract of {@code nextInt} is that one {@code int} value is
+     * pseudorandomly generated and returned. All values GT 0 in 2<font size="-1"><sup>31
+     * </sup></font> possible {@code int} values are produced with
+     * (approximately) equal probability.
+     *
+     * <p>The method {@code nextInt} is implemented by class {@code Random}
+     * as if by:
+     *  <pre> {@code
+     * public int nextInt() {
+     *   return next(32);
+     * }}</pre>
+     *
+     * @return the next pseudorandom, uniformly distributed {@code int}
+     *         value from this random number generator's sequence
+     */
 	public static int rand() {
 		return Math.abs(random.nextInt());
 	}
@@ -119,5 +139,56 @@ public class Lib {
 			return null;
 		}
 	}
+    /**
+     * executes the command and waits until it exits. 
+     * 
+     * @param args
+     *            the command to execute 
+     * @return the exit code of the command
+     * @throws Exception 
+     */
+    public static Vector<String> system(String[] args) throws Exception {
+    	final Vector<String> list = new Vector<String>();
+        class ByteFlushThread extends Thread {
+            protected InputStream is;
+            public ByteFlushThread(InputStream pIs, String name) {
+                super(name);
+                this.is = pIs;
+                setDaemon(true);
+                start();
+            }
+
+            @Override
+            public void run() {
+                try {
+                    String line="";
+                    int c;
+                    while ((c=is.read())!= -1) {
+                        if (c=='\n') {
+                        	list.add(line);
+                            line=""; 
+                        } else {
+                            line+=(char)c;
+                        }
+                    }
+                } catch (final IOException e) {
+                }
+            }
+        };
+
+        Process p = Runtime.getRuntime().exec(args);
+        Thread tout = new ByteFlushThread(p.getInputStream(), "-out");
+        Thread terr = new ByteFlushThread(p.getErrorStream(), "-err");
+//        Thread terr = new ByteFlushThread(p.getErrorStream(), verbose?System.err:null, "-err");
+
+        final int exitCode = p.waitFor();
+
+        tout.join();
+        terr.join();
+
+        if (exitCode!=0) throw new Exception("Script '"+args[0]+"' exited with errorcode="+exitCode);
+        return list;
+    }
+
 
 }

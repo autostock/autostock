@@ -7,7 +7,7 @@ Idee XML pro Handelstag mit den zu testenden Aktien
 		<name>allianz</name>
 		<min>95.4</min>
 		<max>97.49</max>
-		<end>96.2</end>
+		<value>96.2</value>
 		<currency>EURO</currency>
 	</kurs>
 	<kurs>
@@ -18,13 +18,18 @@ Idee XML pro Handelstag mit den zu testenden Aktien
 Es sind XML Kommentare zugelassen: 
 	<!-- ein Kommentar -->
 Einschränkung/Vereinfachung: sie müssen alleine in einer Zeile stehen.
-
+Folgendes geht auch
+	<min></min>
+bzw.
+	<min/>
+	
+	
 2) Portfolio
 
 <portfolio>
-	<kapital>
-		<betrag>10000.56</betrag>
-	</kapital>
+	<capital>
+		10000.56
+	</capital>
 	<aktie>
 		<name>allianz</name>
 		<bestand>200</bestand>
@@ -37,19 +42,19 @@ Einschränkung/Vereinfachung: sie müssen alleine in einer Zeile stehen.
 
 3) Programm unter Test
 3.1) Aufruf
-	<program> -d <data-directory> -i <event-id>
+	<program> -data <data-directory> -event <event-id> [-window <size>]
 Beispiel:
-	xyz.exe -d c:/temp/boerse/ -i 003700
+	trader_123456.exe -data c:/temp/boerse/ -event 1003700
 
 D.h. in der (read-only) Directory <data-directory> befinden sich die Dateien:
-	portfolio-003700.xml
-	event-003450.xml
+	event-1003450.xml
 	...
-	event-003700.xml
+	event-1003700.xml
+	portfolio-1003700.xml
 	
 Diese enthalten 
-a) das Portfolio zum (abstrakten) Zeitpunkt 003700.
-b) Mindestens 250 Kursangaben bis zum Zeitpunkt 003700.
+a) das Portfolio zum (abstrakten) Zeitpunkt 1003700.
+b) Mindestens 250 Kursangaben bis zum Zeitpunkt 1003700.
 
 3.2) Ausgabe auf standard out 
 Ist zeilenorientiert und enthält den Handelsvorschlag.

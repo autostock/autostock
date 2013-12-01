@@ -1,3 +1,4 @@
+package eu.icd.p999.gen1;
 
 public class Kurs {
 
@@ -18,7 +19,7 @@ public class Kurs {
 		<name>allianz</name>
 		<min>95.4</min>
 		<max>97.49</max>
-		<end>96.2</end>
+		<value>96.2</value>
 		<currency>EURO</currency>
 	</kurs>
 	 * </pre>
@@ -30,10 +31,18 @@ public class Kurs {
 				"		<name>"+name+"</name>\r\n" + 
 				"		<min/>\r\n" + 
 				"		<max/>\r\n" + 
-				"		<end>"+value+"</end>\r\n" + 
+				"		<value>"+value+"</value>\r\n" + 
 				"		<currency>unknown</currency>\r\n" + 
 				"	</kurs>";
 		return res;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public double getValue() {
+		return value;
 	}
 
 }
