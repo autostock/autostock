@@ -1,3 +1,4 @@
+package eu.icd.p999.gen1;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.Formatter;
@@ -504,8 +505,8 @@ public class Test3 {
 			line = gets(in);
 			if (PRINTMODE(4))
 				fprintf(System.err, "Bitte Datum und Kurs: ");
-			strcpy(line, "                                   ");
-			line = gets(in);
+//			strcpy(line, "                                   ");
+//			line = gets(in);
 			lasthandel = i;
 			while (ref(ref = fscanf(in, "%s %s", str, str2), str = ref.values[0],
 					str2 = ref.values[1]) == 2) {
@@ -597,7 +598,7 @@ public class Test3 {
 
 		f = fopen_r(fn, "r");
 		if (f == null) {
-			fprintf(System.err, "Problems with file '%s'\n", fn);
+			fprintf(System.err, "Problems with file '%s'\n", new File(fn).getAbsolutePath());
 			return (0);
 		}
 		/*

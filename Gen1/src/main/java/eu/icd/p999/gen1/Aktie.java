@@ -1,5 +1,8 @@
 package eu.icd.p999.gen1;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias("aktie")
 public class Aktie {
 
 	private String name;

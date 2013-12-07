@@ -1,14 +1,20 @@
 package eu.icd.p999.gen1;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias("kurs")
 public class Kurs {
 
-	private String time;
+	private String timestamp;
 	private String name;
 	private double value;
+	private Double min;
+	private Double max;
+	private String currency;
 
 	public Kurs(String name, String time, double value) {
 		this.name=name;
-		this.time=time;
+		this.timestamp=time;
 		this.value=value;
 	}
 
@@ -27,7 +33,7 @@ public class Kurs {
 	public String toXML() {
 		String res=
 				"	<kurs>\r\n" + 
-				"		<timestamp>"+time+"</timestamp>\r\n" + 
+				"		<timestamp>"+timestamp+"</timestamp>\r\n" + 
 				"		<name>"+name+"</name>\r\n" + 
 				"		<min/>\r\n" + 
 				"		<max/>\r\n" + 

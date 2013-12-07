@@ -3,10 +3,15 @@ import java.util.Collection;
 import java.util.NoSuchElementException;
 import java.util.Vector;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
+
+@XStreamAlias("portfolio")
 public class Portfolio {
 
 	private double capital;
+	@XStreamImplicit
 	private Collection<Aktie> content=new Vector<Aktie>();
 
 	public Portfolio(double capital) {
