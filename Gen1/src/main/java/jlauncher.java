@@ -14,3 +14,9 @@ class test3 {
         eu.icd.p999.gen1.Test3.main(args);
     }
 }
+
+class test4 {
+    public static void main(final String[] args) {    
+        eu.icd.p999.gen1.Test4.main(args);
+    }
+}

@@ -20,45 +20,59 @@ import static org.junit.Assert.*;
  * @author wrossner
  */
 public class Tests {
-    @Test
+	final class Interceptor extends PrintStream
+	{
+	    private String line="";
+		private int lineno;
+		private BufferedReader in;
+		public Interceptor(BufferedReader in, OutputStream out)
+	    {
+	        super(out, true);
+	        this.in=in;
+	    }
+	    @Override
+	    public void print(String s)
+	    {
+	    	line+=s;
+	    	if (s.endsWith("\n")) {
+	    		lineno++;
+	    		//super.print("intercept: "+line);
+	    		if (line.startsWith(":"))
+					try {
+						test(line);
+					} catch (IOException e) {
+						new AssertionError(e);
+					}
+	    		line="";    	    		
+	    	}
+	    }
+		private void test(String tline) throws IOException {
+			String vline=in.readLine();
+			while (!vline.startsWith(":")) {
+				vline=in.readLine();
+			}
+			assertEquals("line "+lineno+" does not match", vline, tline.replace(',', '.').replace("\n", ""));
+		}
+	}
+
+	@Test
     public void testTest3() throws IOException {
     	final BufferedReader in = new BufferedReader(new FileReader("src/test/resources/allianz.valid"));
-    	final class Interceptor extends PrintStream
-    	{
-    	    private String line="";
-			private int lineno;
-			public Interceptor(OutputStream out)
-    	    {
-    	        super(out, true);
-    	    }
-    	    @Override
-    	    public void print(String s)
-    	    {
-    	    	line+=s;
-    	    	if (s.endsWith("\n")) {
-    	    		lineno++;
-    	    		//super.print("intercept: "+line);
-    	    		if (line.startsWith(":"))
-						try {
-							test(line);
-						} catch (IOException e) {
-							new AssertionError(e);
-						}
-    	    		line="";    	    		
-    	    	}
-    	    }
-			private void test(String tline) throws IOException {
-				String vline=in.readLine();
-				while (!vline.startsWith(":")) {
-					vline=in.readLine();
-				}
-				assertEquals("line "+lineno+" does not match", vline, tline.replace(',', '.').replace("\n", ""));
-			}
-    	}
     	PrintStream out = System.out;
-    	System.setOut(new Interceptor(out));
+    	System.setOut(new Interceptor(in, out));
     	
     	Test3.main(new String[] {"-m", "doc/boerse/run31164.mac", "-v", "3", "-r", "src/test/resources/allianz.txt"});
+    	System.setOut(out);
+    	in.close();
+    }
+
+	@Test
+    public void testTest4() throws IOException {
+    	final BufferedReader in = new BufferedReader(new FileReader("src/test/resources/allianz.valid"));
+    	PrintStream out = System.out;
+    	//System.setOut(new Interceptor(in, out));
+    	
+    	Test4.main(new String[] {"-m", "doc/boerse/run31164.mac", "-v", "3", "-r", "src/test/resources/allianz.txt"});
     	System.setOut(out);
     	in.close();
     }
