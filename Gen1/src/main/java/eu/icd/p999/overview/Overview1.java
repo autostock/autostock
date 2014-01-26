@@ -3,10 +3,13 @@ package eu.icd.p999.overview;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.Vector;
 
 import org.junit.Test;
 
@@ -14,6 +17,7 @@ import eu.icd.p999.generator.GenGauss1;
 import eu.icd.p999.generator.GenHist1;
 import eu.icd.p999.generator.GenUni3;
 import eu.icd.p999.generator.HistoryStore1;
+import eu.icd.p999.generator.HistoryStore2;
 import eu.icd.p999.generator.IGen;
 import static lib.Lib.*;
 
@@ -94,9 +98,90 @@ public class Overview1 {
 			System.out.printf("System.arraycopy(part, 0, hist, %d, %d);\n", dest, len);
 			System.out.printf("};\n");
 		}
-
-
 	}
+
+	@Test
+	public void genHist2() {
+		File dir = new File("doc/boerse/dax/");
+//		System.out.println(dir.getAbsolutePath());
+		File[] list = dir.listFiles();
+		for (int i = 0; i < list.length; i++) {
+			if (list[i].getName().endsWith(".txt")) {
+				String name = list[i].getName().replace(".txt", "");
+				name=name.substring(0, 1).toUpperCase()+name.substring(1);
+				int j=0;
+				System.out.printf("public HistoryStore2 add%s() {\n", name);
+				System.out.printf("float[] part= new float[] {\n");
+				try {
+					Scanner in = new Scanner(new FileInputStream(list[i]));
+					String token = "";
+					while(token!=null) {
+						token = in.next();
+						token = in.next("\\d+,\\d+").replace(",", ".");
+						System.out.print(token+"f, ");
+						if (++j%16==0) {
+							System.out.printf("\n");
+						}
+					}
+					in.close();
+				} catch (FileNotFoundException e) {
+				} catch (NoSuchElementException e) {
+				}
+				System.out.printf("};\n");
+				System.out.printf("add(\"%s\", part);\n", name);
+				System.out.printf("return this;\n");
+				System.out.printf("};\n");
+			}
+		}
+	}
+
+	/**
+	 * 
+	Date,Open,High,Low,Close,Volume,Adj Close
+	2014-01-06,127.84,128.76,127.71,128.36,4800,128.36
+	2014-01-03,128.05,128.40,127.18,128.00,11100,128.00
+	 */
+	@Test
+	public void genHist3() {
+		File dir = new File("doc/boerse/data/");
+//		System.out.println(dir.getAbsolutePath());
+		File[] list = dir.listFiles();
+		for (int i = 0; i < list.length; i++) {
+			if (list[i].getName().endsWith(".csv")) {
+				String name = list[i].getName().replace(".csv", "").replace("-", "_");
+				name=name.substring(0, 1).toUpperCase()+name.substring(1);
+				ArrayList<String> file = new ArrayList<String>();
+				try {
+					Scanner in = new Scanner(new FileInputStream(list[i]));
+					String line = in.nextLine();
+					while(line!=null) {
+						line = in.nextLine();
+						file.add(line);
+					}
+					in.close();
+				} catch (FileNotFoundException e) {
+				} catch (NoSuchElementException e) {
+				}
+				Collections.sort(file);
+
+				int j=0;
+				System.out.printf("public HistoryStore2 add%s() {\n", name);
+				System.out.printf("float[] part= new float[] {\n");
+				for (String string : file) {
+					String[] token = string.split(",");
+					System.out.print(token[6]+"f, ");
+					if (++j%16==0) {
+						System.out.printf("\n");
+					}
+				}
+				System.out.printf("};\n");
+				System.out.printf("add(\"%s\", part);\n", name);
+				System.out.printf("return this;\n");
+				System.out.printf("};\n");
+			}
+		}
+	}
+
 
 	@Test
 	public void checkAvg() {
@@ -181,5 +266,169 @@ public class Overview1 {
 				System.out.printf("%f\t%f\t%f\t%f\t%f\n", step*(i-P/2), v0[i]/v0[P/2], v1[i]/v1[P/2], sum, d);
 			}
 		}
+	}
+
+	@Test
+	public void getSeperateDistribs() {
+		int N=10000000;
+		int P=201;
+		double step=0.001;
+		
+		IGen[] list= new IGen[] {
+				new HistoryStore2().addAllianz(),
+				new HistoryStore2().addBabcock(),
+				new HistoryStore2().addBasf(),
+				new HistoryStore2().addBayer(),
+				new HistoryStore2().addBayrhypo(),
+				new HistoryStore2().addBMW(),
+				new HistoryStore2().addCommerz(),
+				new HistoryStore2().addContinen(),
+				new HistoryStore2().addDegussa(),
+				new HistoryStore2().addDeuBank(),
+				new HistoryStore2().addDresdner(),
+				new HistoryStore2().addEON(),
+				new HistoryStore2().addHenkel(),
+				new HistoryStore2().addHoechst(),
+				new HistoryStore2().addKarstadt(),
+				new HistoryStore2().addLinde(),
+				new HistoryStore2().addLufthans(),
+				new HistoryStore2().addMAN(),
+				new HistoryStore2().addMannesma(),
+				new HistoryStore2().addMetallge(),
+				new HistoryStore2().addPreussag(),
+				new HistoryStore2().addRWE(),
+				new HistoryStore2().addSchering(),
+				new HistoryStore2().addSiemens(),
+				new HistoryStore2().addTelekom(),
+				new HistoryStore2().addThyssen(),
+				new HistoryStore2().addVW(),
+		};
+		double[][] v=new double[list.length][P];
+		
+		
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < list.length; j++) {
+				double c = list[j].next();
+				int idx=(int)((c+0.5*step)/step+P/2);
+				if (idx<=0) {
+					v[j][0]++;
+				} else if (idx>=P-1) {
+					v[j][P-1]++;
+				} else {
+					v[j][idx]++;
+				}
+			}
+		}
+		for (int i = 0; i < P; i++) {
+			System.out.printf("%f", step*(i-P/2));
+			for (int j = 0; j < v.length; j++) {
+				System.out.printf("\t%f", v[j][i]/v[j][P/2]);
+			}
+			System.out.printf("\n");
+		}
+	}
+
+	@Test
+	public void getSeperateDistribsEach() {
+		int N=10000000;
+		int P=201;
+		double step=0.001;
+		
+		IGen[] list= new IGen[] {
+				new HistoryStore2().addAllianz(),
+				new HistoryStore2().addAllianz_2014_01_06(),
+				new HistoryStore2().addMicrosoft_2013_11_19(),
+				new HistoryStore2().addMicrosoft_2000_07_14(),
+//				new HistoryStore2().addBabcock(),
+//				new HistoryStore2().addBasf(),
+//				new HistoryStore2().addBayer(),
+//				new HistoryStore2().addBayrhypo(),
+//				new HistoryStore2().addBMW(),
+//				new HistoryStore2().addCommerz(),
+//				new HistoryStore2().addContinen(),
+//				new HistoryStore2().addDegussa(),
+//				new HistoryStore2().addDeuBank(),
+//				new HistoryStore2().addDresdner(),
+//				new HistoryStore2().addEON(),
+//				new HistoryStore2().addHenkel(),
+//				new HistoryStore2().addHoechst(),
+//				new HistoryStore2().addKarstadt(),
+//				new HistoryStore2().addLinde(),
+//				new HistoryStore2().addLufthans(),
+//				new HistoryStore2().addMAN(),
+//				new HistoryStore2().addMannesma(),
+//				new HistoryStore2().addMetallge(),
+//				new HistoryStore2().addPreussag(),
+//				new HistoryStore2().addRWE(),
+//				new HistoryStore2().addSchering(),
+//				new HistoryStore2().addSiemens(),
+//				new HistoryStore2().addTelekom(),
+//				new HistoryStore2().addThyssen(),
+//				new HistoryStore2().addVW(),
+		};
+		double[][] v=new double[list.length][P];
+		
+		
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < list.length; j++) {
+				double c = list[j].next();
+				int idx=(int)((c+0.5*step)/step+P/2);
+				if (idx<=0) {
+					v[j][0]++;
+				} else if (idx>=P-1) {
+					v[j][P-1]++;
+				} else {
+					v[j][idx]++;
+				}
+			}
+		}
+
+		for (int j = 0; j < v.length; j++) {
+			System.out.printf("%s\t%s\t", list[j].toString(), list[j].toString());
+		}
+		System.out.printf("\n");
+		for (int i = 0; i < P; i++) {
+			for (int j = 0; j < v.length; j++) {
+				System.out.printf("%f\t%f\t", step*(i-P/2), v[j][i]/v[j][P/2]);
+			}
+			System.out.printf("\n");
+		}
+	}
+
+	@Test
+	public void getMultipleOrders() {
+		int D=250;
+		HistoryStore2[] list= new HistoryStore2[] {
+				new HistoryStore2().addMicrosoft(D),
+				new HistoryStore2().addMicrosoft(D),
+				new HistoryStore2().addMicrosoft(D),
+				new HistoryStore2().addMicrosoft(D),
+				new HistoryStore2().addMicrosoft(D),
+				new HistoryStore2().addMicrosoft(D),
+				new HistoryStore2().addMicrosoft(D),
+				new HistoryStore2().addMicrosoft(D),
+				new HistoryStore2().addMicrosoft(D),
+				new HistoryStore2().addMicrosoft(D),
+		};
+		int N=list.length;
+
+		double[] k=new double[N];
+		double s0=0;
+		for (int i = 0; i < D; i++) {
+			double s = list[0].read();
+			if (i==0) {
+				s0=s;
+				for (int j = 0; j < N; j++) {
+					k[j]=1;
+				}
+			}
+			System.out.printf("%f", s/s0);
+			for (int j = 0; j < N; j++) {
+				System.out.printf("\t%f", k[j]);
+				k[j]=(1+list[j].next(10, 0.1))*k[j];
+			}
+			System.out.printf("\n");
+		}
+		System.out.printf("%d\n", HistoryStore2.missed);
 	}
 }

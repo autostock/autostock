@@ -23,6 +23,7 @@ public class onetest {
 
 	private static int start;
 	private static int tests;
+	private static int verbose=0;
 
 	private static String dir="target/tmp/";
 
@@ -53,6 +54,8 @@ public class onetest {
 					dir = argv[++i]+"/";
 				} else if (strcmp(argv[i], "-testee") == 0) {
 					testee = argv[++i];
+				} else if (strcmp(argv[i], "-verbose") == 0 || strcmp(argv[i], "-v") == 0) {
+					verbose = atoi(argv[++i]);
 				} else {
 					printf("unknown option %s\n", argv[i]);
 					System.exit(9);
@@ -131,10 +134,12 @@ public class onetest {
 			file.println(kurs.toXML());
 			file.println("</event>");
 			file.close();
+			
 			//Portfolio
 			file = new PrintStream(new File(dir+"portfolio-"+(event_id+i)+".xml"));
 			file.println(portfolio.toXML(0));
 			file.close();
+			
 			Vector<String> lines= new Vector<String>(); 
 			lines=system(new String[] {testee, "-data", dir, "-event", ""+ (event_id+i)});
 			for (int j=0; j<lines.size(); j++) {

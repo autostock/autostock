@@ -6,7 +6,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 public class Aktie {
 
 	private String name;
-	private int bestand;
+	private double bestand;
 
 	public Aktie(String name) {
 		this.name=name;
@@ -18,6 +18,10 @@ public class Aktie {
 
 	public void add(int stueck2) {
 		bestand+=stueck2;		
+	}
+
+	public double getBestand() {
+		return bestand;		
 	}
 
 	public String toXML(int level) {

@@ -1,3 +1,4 @@
+Version 2
 1) Event = Handelstag
 Idee XML pro Handelstag mit den zu testenden Aktien
 
@@ -47,7 +48,7 @@ D.h. in der (read-only) Directory <data-directory> befinden sich die Dateien:
 	...
 	event-1003700.xml
 	
-Diese enthalten mindestens 250 Kursangaben (inkl. Portfolio) bis zum Zeitpunkt 1003700.
+Das sind 250 Dateien mit Kursangaben bzw. Portfolioangaben (siehe 1) bis zum Zeitpunkt 1003700. Deshalb 250 weil der Default von -window <size> 250 ist.
 
 2.2) Ausgabe auf standard out 
 Ist zeilenorientiert und enthält den Handelsvorschlag.
@@ -58,6 +59,13 @@ Bedeutet, dass das Programm 20 Allianz Aktien kaufen will.
 
 3) Framework
 3.1) Aufruf
-	onetest -testee <program-under-test> -data <data-directory> [-window <size>] -tests <days> [-name <aktien-input-file>]
-Beispiel:
-	onetest -testee "C:\Users\wrossner\boerse\trader_0.exe" -data C:\Users\wrossner\boerse\tmp\ -window 1 -tests 20 -name "C:\Users\wrossner\git\autostock\Gen1\doc\boerse\dax\allianz.txt"
+	onetest1 -testee <program-under-test> -data <data-directory> [-window <size>] -tests <days> [-name <aktien-input-file>]
+Beispiel 1:
+	onetest1 -testee "C:\Users\wrossner\boerse\trader_1.exe" -data C:\Users\wrossner\boerse\tmp\ -window 100 -tests 20 -name "C:\Users\wrossner\git\autostock\Gen1\doc\boerse\dax\allianz.txt"
+	
+	Startet 30 mal das Programm "C:\Users\wrossner\boerse\trader_1.exe" mit dem Aufruf:
+		"C:\Users\wrossner\boerse\trader_1.exe" -data C:\Users\wrossner\boerse\tmp\ -window 100 -event ####
+	Wobei #### jeweils für das aktuelle Event steht. Dabei sorgt onetest dafür, dass "trader_0.exe" für jeden Test jeweils 100 Events (Vorlauf) zur Verfügung stehen.
+	
+	
+	

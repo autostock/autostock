@@ -12,7 +12,7 @@ public class Portfolio {
 
 	private double capital;
 	@XStreamImplicit
-	private Collection<Aktie> content=new Vector<Aktie>();
+	public Collection<Aktie> content=new Vector<Aktie>();
 
 	public Portfolio(double capital) {
 		this.capital=capital;
@@ -31,7 +31,7 @@ public class Portfolio {
 				return;
 			}
 		}
-		throw new NoSuchElementException(name+"does not exists!");
+		throw new NoSuchElementException("Aktie '"+name+"' does not exists!");
 	}
 
 	public String toXML(int level) {

@@ -38,7 +38,18 @@ public class Lib {
 		return Math.abs(random.nextInt());
 	}
 
+	public static void srand(int seed) {
+		random.setSeed(seed);
+	}
+
 	public static Random random = new Random();
+
+	public static void sleep(int sec) {
+		try {
+			Thread.sleep(sec*1000);
+		} catch (InterruptedException e) {
+		}
+	}
 
 	public static double fabs(double handel) {
 		return Math.abs(handel);
@@ -76,6 +87,14 @@ public class Lib {
 
 	public static void fflush(PrintStream out) {
 		out.flush();		
+	}
+
+	public static void fclose(PrintStream out) {
+		out.close();		
+	}
+
+	public static void fclose(Scanner in) {
+		in.close();		
 	}
 
 	public static PrintStream fopen(String name, String mode) {
@@ -186,7 +205,12 @@ public class Lib {
         tout.join();
         terr.join();
 
-        if (exitCode!=0) throw new Exception("Script '"+args[0]+"' exited with errorcode="+exitCode);
+        if (exitCode!=0) {
+        	for (String line : list) {
+				System.err.print(line);
+			}
+        	throw new Exception("Script '"+args[0]+"' exited with errorcode="+exitCode);
+        }
         return list;
     }
 

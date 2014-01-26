@@ -51,4 +51,8 @@ public class Kurs {
 		return value;
 	}
 
+	public String getTimestamp() {
+		return timestamp;
+	}
+
 }
